@@ -4,12 +4,24 @@
 		"selected_items":
 		[
 			[
-				"co",
-				"controls1"
+				"in",
+				"inArray"
 			],
 			[
 				"con",
-				"controls"
+				"controls2"
+			],
+			[
+				"ke",
+				"keysPressed"
+			],
+			[
+				"new",
+				"newTop"
+			],
+			[
+				"co",
+				"controls1"
 			],
 			[
 				"utf",
@@ -142,10 +154,6 @@
 			[
 				"fo",
 				"font-variant"
-			],
-			[
-				"in",
-				"inline-block"
 			],
 			[
 				"to",
@@ -423,7 +431,7 @@
 			"file": "index2.html",
 			"settings":
 			{
-				"buffer_size": 613,
+				"buffer_size": 635,
 				"line_ending": "Windows"
 			}
 		},
@@ -431,7 +439,7 @@
 			"file": "game.js",
 			"settings":
 			{
-				"buffer_size": 2268,
+				"buffer_size": 3494,
 				"line_ending": "Windows"
 			}
 		}
@@ -492,6 +500,11 @@
 	},
 	"file_history":
 	[
+		"/C/Users/venom/AppData/Local/Temp/scp03921/httpdocs/index.php",
+		"/C/Users/venom/AppData/Local/Temp/scp03811/httpdocs/protected/config/main.php",
+		"/C/Users/venom/AppData/Local/Temp/scp32168/templates/cnetwork/javascript/scripts.js",
+		"/C/Users/venom/AppData/Local/Temp/scp59718/domains/dom-partner.com.ua/public_html/style.css",
+		"/C/Users/venom/AppData/Local/Temp/scp55604/domains/dom-partner.com.ua/public_html/template.php",
 		"/F/q.txt",
 		"/C/Sublime_Text_2.0.1_x64/Data/Packages/User/cl.sublime-snippet",
 		"/C/Sublime_Text_2.0.1_x64/Data/Packages/JavaScript/function.sublime-snippet",
@@ -614,12 +627,7 @@
 		"/C/Users/venom/AppData/Local/Temp/scp28302/httpdocs/admin/protected/config/production.php",
 		"/C/Users/venom/Desktop/builder/JsonController.php",
 		"/C/Users/venom/Desktop/builder_old/admin/protected/controllers/JsonController.php",
-		"/C/Users/venom/AppData/Local/Temp/scp56989/httpdocs/admin/protected/models/ElementF.php",
-		"/C/Users/venom/Desktop/builder_new/admin/protected/models/ElementF.php",
-		"/C/Users/venom/AppData/Local/Temp/scp55261/httpdocs/admin/protected/models/Element.php",
-		"/C/Users/venom/Desktop/builder_new/admin/protected/models/Element.php",
-		"/C/Users/venom/AppData/Local/Temp/scp55013/httpdocs/admin/protected/models/Description.php",
-		"/C/Users/venom/AppData/Local/Temp/scp31265/httpdocs/dashboard/auth.php"
+		"/C/Users/venom/AppData/Local/Temp/scp56989/httpdocs/admin/protected/models/ElementF.php"
 	],
 	"find":
 	{
@@ -798,15 +806,15 @@
 					"file": "index2.html",
 					"settings":
 					{
-						"buffer_size": 613,
+						"buffer_size": 635,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								362,
-								362
+								467,
+								467
 							]
 						],
 						"settings":
@@ -835,15 +843,15 @@
 					"file": "game.js",
 					"settings":
 					{
-						"buffer_size": 2268,
+						"buffer_size": 3494,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1389,
-								1389
+								624,
+								624
 							]
 						],
 						"settings":
@@ -855,7 +863,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 216.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

@@ -1,13 +1,25 @@
 //(function() {
 	var BORD_WIDTH = 10;
-	var BORD_HEIGHT = 150;
+	var BORD_HEIGHT = 120;
 	var BORD_PADDING = 10;
 	var BALL_RADIUS = 10;
-	var MOVE_STEP = 10;
+	var MOVE_STEP = 20;
+	var MOVE_DURATION = 10;
 
 	// q = 81, a = 65, top = 38, bottom = 40
+	
+	var controls = {
+		'81': ['top', 'p1'],
+		'65': ['bottom', 'p1'],
+		'38': ['top', 'p2'],
+		'40': ['bottom', 'p2']
+	}
+
 	var controls1 = [81, 65];
 	var controls2 = [38, 40];
+
+	var allControls = controls1.concat(controls2);
+	var keysPressed = [];
 
 	/**
 	 * [Player class]
@@ -22,6 +34,8 @@
 		this.controls = controls;
 		this.ballLeft = ballLeft;
 		this.hasBall = false;
+
+		bord.player = this;
 	}
 
 	/**
@@ -32,6 +46,8 @@
 	function Bord(top, left) {
 		this.top = top;
 		this.left = left;
+		this.field = null;
+		this.player = null;
 
 		var rect = new fabric.Rect({
 			width: BORD_WIDTH,
@@ -43,16 +59,45 @@
 
 		this.placeOnField = function(field) {
 			field.add(this.rectObj);
+			this.field = field;
 			return this;
 		};
 
 		this.move = function(dir) {
 			if (dir == 'top') {
-				this.rectObj.top += MOVE_STEP;
+				var y = this.rectObj.top-BORD_HEIGHT/2;
+				y -= MOVE_STEP;
+
+				if (y >= 0) {
+					this.rectObj.animate('top', '-'+MOVE_STEP, {
+						duration: MOVE_DURATION,
+						onChange: this.field.renderAll.bind(this.field)
+					});
+
+					if ((this.player.hasBall) && (ball.speed == 0)) {
+						ball.moveWithBoard(this.rectObj.top-MOVE_STEP);
+					}
+				} else {
+					y = 0;
+				}
 			}
 
 			if (dir == 'bottom') { 
-				this.rectObj.top -= MOVE_STEP;
+				var y = this.rectObj.top+BORD_HEIGHT/2;
+				y += MOVE_STEP;
+
+				if (y <= this.field.height) {
+					this.rectObj.animate('top', '+'+MOVE_STEP, {
+						duration: MOVE_DURATION,
+						onChange: this.field.renderAll.bind(this.field)
+					});
+
+					if ((this.player.hasBall) && (ball.speed == 0)) {
+						ball.moveWithBoard(this.rectObj.top+MOVE_STEP);
+					}
+				} else {
+					y = this.field.height;
+				}
 			}
 		}
 	}
@@ -61,17 +106,27 @@
 	 * [Ball class]
 	 */
 	function Ball() {
-		var ball = new fabric.Circle({
+		var circle = new fabric.Circle({
 			radius: BALL_RADIUS,
 			fill: "#f00"
 		});
+		this.circleObj = circle;
 
 		this.speed = 0;
-		this.giveTo = function(player) {
-			ball.top = player.bord.top;
-			ball.left = player.ballLeft;
 
-			field.add(ball);
+		this.giveTo = function(player) {
+			this.circleObj.top = player.bord.top;
+			this.circleObj.left = player.ballLeft;
+			player.hasBall = true;
+
+			field.add(this.circleObj);
+		}
+
+		this.moveWithBoard = function(y) {
+			this.circleObj.animate('top', y, {
+				duration: MOVE_DURATION,
+				onChange: field.renderAll.bind(field)
+			});
 		}
 	}
 
@@ -97,14 +152,57 @@
 	var ball = new Ball();
 	ball.giveTo(player1);
 
+	function checkMove(keysPressed) {
+		if (keysPressed[81] == 1) {
+			p1Bord.move('top');
+		}
+
+		if (keysPressed[65] == 1) {
+			p1Bord.move('bottom');
+		}
+
+		if (keysPressed[38] == 1) {
+			p2Bord.move('top');
+		}
+
+		if (keysPressed[40] == 1) {
+			p2Bord.move('bottom');
+		}
+
+		/*if (kc == controls1[0]) {
+			var dir = 'top';
+		} else {
+			var dir = 'bottom';
+		}
+
+		//p1Bord.move(dir);
+
+		if (kc == controls2[0]) {
+			var dir = 'top';
+		} else {
+			var dir = 'bottom';
+		}
+
+		//p2Bord.move(dir);*/
+	}
 
 	$(document).keydown(function(e) {
 		var kc = e.keyCode;
 
-		if (($.inArray(kc, controls1) != -1) || ($.inArray(kc, controls2) != -1)) {
+		if ($.inArray(kc, allControls) != -1) {
+			keysPressed[kc] = 1;
+			checkMove(keysPressed);
 			e.preventDefault();
+		}
+	});
 
+	$(document).keyup(function(e) {
+		var kc = e.keyCode;
 
+		if ($.inArray(kc, allControls) != -1) {
+			keysPressed[kc] = 0;
+			checkMove(keysPressed);
+			e.preventDefault();
 		}
 	});
 
