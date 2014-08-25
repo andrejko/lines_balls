@@ -1,3 +1,33 @@
+Player = function(index, game, startX, startY) {
+    this.board = game.add.sprite(startX, startY, 'board');
+
+    game.physics.arcade.enable(this.board);
+
+    this.board.body.collideWorldBounds = true;
+    this.board.body.immovable = true;
+}
+
+Player.prototype.update = function() {
+    var board = this.board;
+
+    board.body.velocity.x = 0;
+    board.body.velocity.y = 0;
+
+    if (cursors.left.isDown) {
+        board.body.velocity.x = -defaultSpeed;
+        board.animations.play('left');
+    } else if (cursors.right.isDown) {
+        board.body.velocity.x = defaultSpeed;
+        board.animations.play('right');
+    } else if (cursors.up.isDown) {
+        board.body.velocity.y = -defaultSpeed;
+        board.animations.play('right');
+    } else if (cursors.down.isDown) {
+        board.body.velocity.y = defaultSpeed;
+        board.animations.play('right');
+    }
+}
+
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-container', { 
     preload: preload, 
     create: create, 
@@ -20,8 +50,8 @@ function create() {
     game.stage.backgroundColor = '#fff';
 
     // place players boards
-    player1 = game.add.sprite(10, 250, 'board');
-    player2 = game.add.sprite(780, 250, 'board');
+    player1 = new Player(1, game, 10, 250);
+    player2 = new Player(2, game, 780, 250);
 
     // place ball
     ball = game.add.sprite(0, 0, 'ball');
@@ -30,14 +60,6 @@ function create() {
     game.physics.arcade.enable(ball);
     ball.body.collideWorldBounds = true;
     ball.body.bounce.setTo(1, 1);
-    ball.body.acceleration.setTo(0.1, 0.1);
-
-    game.physics.arcade.enable(player1);
-    game.physics.arcade.enable(player2);
-    player1.body.collideWorldBounds = true;
-    player2.body.collideWorldBounds = true;
-    player1.body.immovable = true;
-    player2.body.immovable = true;
 
     cursors = game.input.keyboard.createCursorKeys();
 
@@ -47,36 +69,32 @@ function create() {
 
 function update() {
     // movement
-    player1.body.velocity.x = 0;
-    player1.body.velocity.y = 0;
+    player1.update();
+    player2.update();
 
-    if (cursors.left.isDown) {
-        player1.body.velocity.x = -defaultSpeed;
-        player1.animations.play('left');
-    } else if (cursors.right.isDown) {
-        player1.body.velocity.x = defaultSpeed;
-        player1.animations.play('right');
-    } else if (cursors.up.isDown) {
-        player1.body.velocity.y = -defaultSpeed;
-        player1.animations.play('right');
-    } else if (cursors.down.isDown) {
-        player1.body.velocity.y = defaultSpeed;
-        player1.animations.play('right');
+    game.physics.arcade.collide(player1.board, ball, ballHitPlayer, null, this);
+    game.physics.arcade.collide(player2.board, ball, ballHitPlayer, null, this);
+
+	if (ball.body.onWall()) {
+        increaseBallVelocityOnCollision();
     }
-
-    game.physics.arcade.collide(player1, ball, ballHitPlayer, null, this);
-    game.physics.arcade.collide(player2, ball, ballHitPlayer, null, this);
 }
 
 function pushBall() {
     ball.body.moves = true;
-    Xvector = (player2.x - ball.x);
-    Yvector = (player2.y - ball.y);
+    Xvector = (player2.board.x - ball.x);
+    Yvector = (player2.board.y - ball.y);
     ball.body.velocity.setTo(Xvector, Yvector);
 }
 
 function ballHitPlayer(player, ball) {
-    console.log(ball.body.acceleration);
-    ball.body.acceleration.setTo(ball.body.acceleration.x + 0.1, ball.body.acceleration.y + 0.1);
-    console.log('hit');
+	increaseBallVelocityOnCollision();
+}
+
+function increaseBallVelocityOnCollision() {
+    var elapsed = game.time.totalElapsedSeconds();
+    var delta = (ball.body.velocity.x > 0 ? 1 : -1) * elapsed;
+
+    ball.body.velocity.setTo(Math.floor(ball.body.velocity.x + delta), Math.floor(ball.body.velocity.y + delta));
+    console.log(ball.body.velocity);
 }
