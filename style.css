@@ -1,9 +1,14 @@
-#game-container {
-    outline: 3px solid #000;
-    width: 800px;
-    height: 600px;
+.game-wrapper {
+	width: 800px;
+	margin: 0 auto;
 }
 
-#game-panel {
+#game-container {
+    outline: 3px solid #000;
+    height: 600px;
+    margin: 50px 15px 20px 15px;
+}
 
+.game-panel {
+	
 }

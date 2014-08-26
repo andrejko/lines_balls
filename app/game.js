@@ -34,13 +34,13 @@ LinesBallsGame.prototype = {
         
         this.phaserGameObj = new Phaser.Game(800, 600, Phaser.AUTO, this.options.gameContainerID, {
             preload: function() {
-                Helpers.preload();
+                gameHelpers.preload();
             },
             create: function() {
-                Helpers.create();
+                gameHelpers.create();
             },
             update: function() {
-                Helpers.update();
+                gameHelpers.update();
             }
         });
     },
@@ -59,11 +59,11 @@ LinesBallsGame.prototype = {
 
     checkMissed: function() {
         if (this.ball.body.blocked.right) {
-            this.player1.missed();
+            this.player2.missed();
         }
 
         if (this.ball.body.blocked.left) {
-            this.player2.missed();
+            this.player1.missed();
         }
 
         if (this.player1.lose || this.player2.lose) {
@@ -100,5 +100,15 @@ LinesBallsGame.prototype = {
     }
 }
 
-var Game = new LinesBallsGame();
-Game.init();
+var gameHelpers, 
+    Game,
+    UI
+;
+
+$(function() {
+    gameHelpers = new Helpers();
+    Game = new LinesBallsGame();
+    gameUI = new UI();
+
+    Game.init();
+});

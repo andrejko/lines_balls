@@ -6,6 +6,9 @@
     <script type="text/javascript" src="libs/lodash.js"></script>
     <script type="text/javascript" src="libs/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="libs/phaser/build/phaser.min.js"></script>
+    <script src="app/Player.js"></script>
+    <script src="app/Helpers.js"></script>
+    <script src="app/UI.js"></script>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
@@ -20,27 +23,28 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h3 class="text-muted pull-left">LinesBalls</h3>
+        <div class="header text-center">
+            <h3 class="text-muted">LinesBalls</h3>
             <div class="clearfix"></div>
         </div>
-        <div class="row">
-            <div id="game-container col-md-2 col-md-offset-5"></div>
-            <div id="game-panel">
-                <div class="player-data" data-player="1">
-                    <div class="name">John</div>
-                    <div class="lives">3</div>
+        <div class="game-wrapper">
+            <div class="row">
+                <div id="game-container"></div>
+            </div>
+            <div class="row game-panel">
+                <div class="col-lg-6 text-center player-data" data-player="1">
+                    <h4 class="name">John</h4>
+                    <h1><div class="label label-default lives">?</div></h1>
                 </div>
-                <div class="player-data" data-player="2">
-                    <div class="name">Victor</div>
-                    <div class="lives">3</div>
+                <div class="col-lg-6 text-center player-data" data-player="2">
+                    <h4 class="name">Victor</h4>
+                    <h1><div class="label label-default lives">?</div></h1>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="app/Player.js"></script>
-    <script src="app/Helpers.js"></script>
+
     <script src="app/game.js"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 Player = function(index, game, startX, startY) {
+    this.index = 'player' + index;
     this.game = game;
     this.lose = false;
     this.lives = Game.options.startPlayerLives;
@@ -37,6 +38,7 @@ Player.prototype.lose = function() {
 
 Player.prototype.missed = function() {
     this.lives--;
+    gameUI.setLives(this.index, this.lives);
 
     if (this.lives == 0) {
         this.lose = true;
