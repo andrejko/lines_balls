@@ -125,18 +125,21 @@ var LinesBallsGame = {
         Xvector = (me.player2.board.x - me.ball.x);
         Yvector = (me.player2.board.y - me.ball.y);
         me.ball.body.velocity.setTo(Xvector, Yvector);
+    },
+
+    endGame: function() {
+        var me = this;
+
+        this.ball.body.moves = false;
+        this.ball.body.velocity.setTo(0);
+    },
+
+    resetGame: function() {
+        var me = this;
+        
+        this.ball.x = (this.gameObj.width - this.ball.width) / 2;
+        this.ball.y = (this.gameObj.height - this.ball.height) / 2;
     }
 }
-
-function resetGame() {
-    ball.x = (game.width - ball.width) / 2;
-    ball.y = (game.height - ball.height) / 2;
-}
-
-function endGame() {
-    ball.body.moves = false;
-    ball.body.velocity.setTo(0);
-}
-
 
 LinesBallsGame.init();
