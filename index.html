@@ -4,24 +4,43 @@
 	<meta charset="UTF-8" />
 	<title>Lines</title>
     <script type="text/javascript" src="libs/lodash.js"></script>
+    <script type="text/javascript" src="libs/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="libs/phaser/build/phaser.min.js"></script>
-    <style type="text/css">
-        body {
-            margin: 0;
-        }
 
-        #game-container {
-            border: 3px solid #000;
-            width: 800px;
-            height: 600px;
-            margin: 50px 50px;
-        }
-    </style>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="game-container"></div>
+    <div class="container">
+        <div class="header">
+            <h3 class="text-muted pull-left">LinesBalls</h3>
+            <div class="clearfix"></div>
+        </div>
+        <div class="row">
+            <div id="game-container col-md-2 col-md-offset-5"></div>
+            <div id="game-panel">
+                <div class="player-data" data-player="1">
+                    <div class="name">John</div>
+                    <div class="lives">3</div>
+                </div>
+                <div class="player-data" data-player="2">
+                    <div class="name">Victor</div>
+                    <div class="lives">3</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="app/Player.js"></script>
+    <script src="app/Helpers.js"></script>
     <script src="app/game.js"></script>
 </body>
 </html>
