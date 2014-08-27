@@ -4,6 +4,9 @@ Player = function(index, game, startX, startY) {
     this.lose = false;
     this.lives = null;
     this.board = game.add.sprite(startX, startY, 'board');
+    this.boardSpeed = Game.options.defaultBoardSpeed;
+    this.reverse = false;
+    this.bonusesInStash = [];
 
     game.physics.arcade.enable(this.board);
 
@@ -18,10 +21,10 @@ Player.prototype.update = function() {
     board.body.velocity.y = 0;
 
     if (Game.options.controls[this.index + "UP"].isDown) {
-        board.body.velocity.y = -Game.options.defaultSpeed;
+        board.body.velocity.y = -this.boardSpeed;
     }
     if (Game.options.controls[this.index + "DOWN"].isDown) {
-        board.body.velocity.y = Game.options.defaultSpeed;
+        board.body.velocity.y = this.boardSpeed;
     }
 }
 

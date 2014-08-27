@@ -5,6 +5,11 @@ Helpers = function() {
 Helpers.prototype.preload = function() {
     Game.phaserGameObj.load.image('board', 'assets/board.jpg');
     Game.phaserGameObj.load.image('ball', 'assets/ball.png');
+    Game.phaserGameObj.load.image('bonus-enlarge', 'assets/bonus-enlarge.png');
+    Game.phaserGameObj.load.image('bonus-reduce', 'assets/bonus-reduce.png');
+    Game.phaserGameObj.load.image('bonus-fast', 'assets/bonus-fast.png');
+    Game.phaserGameObj.load.image('bonus-slow', 'assets/bonus-slow.png');
+    Game.phaserGameObj.load.image('bonus-reverse', 'assets/bonus-reverse.png');
 };
 
 Helpers.prototype.create = function() {
@@ -39,6 +44,10 @@ Helpers.prototype.create = function() {
 };
 
 Helpers.prototype.update = function() {
+    var elapsed = Game.phaserGameObj.time.totalElapsedSeconds(),
+        bonus
+    ;
+
     // movement
     Game.player1.update();
     Game.player2.update();
@@ -52,5 +61,14 @@ Helpers.prototype.update = function() {
         if (Game.gameStarted) {
             Game.checkMissed();
         }
+    }
+
+    if ((elapsed - Game.lastBonusTime) >= Game.nextBonusTimeDelta) {
+        bonus = bonusFactory.getRandomBonus();
+
+        bonus.giveToPlayer(Game[Game.nextBonusPlayer]);
+
+        Game.lastBonusTime = elapsed;
+        Game.nextBonusTimeDelta = _.random(1, 10);
     }
 };

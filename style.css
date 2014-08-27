@@ -12,3 +12,22 @@
 .game-panel {
 	
 }
+
+.game-panel .bonuses {
+	padding-top: 35px;
+}
+
+.bonus-box {
+	width: 60px;
+	height: 60px;
+	display: inline-block;
+	outline: 2px solid #ccc;
+}
+
+.player1 .bonus-box {
+	margin-right: 10px;
+}
+
+.player2 .bonus-box {
+	margin-left: 10px;
+}

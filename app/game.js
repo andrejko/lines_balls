@@ -2,14 +2,19 @@ function LinesBallsGame() {
     this.options = {
         startPlayerLives: 3,
         ballAcceleration: 5,
-        boardMovementSpeed: 500,
         boardSideOffset: 10,
         boardInitialWidth: 12,
         boardInitialHeight: 100,
-        defaultSpeed: 500,
+        defaultBoardSpeed: 500,
+        bonusSpeed: 500,
         gameContainerID: 'game-container',
-        controls: {}
+        controls: {},
     };
+
+    this.bonuses = ["enlarge", "reduce", "fast", "slow", "reverse"];
+    this.lastBonusTime = null;
+    this.nextBonusTimeDelta = 5; // 5 sec
+    this.nextBonusPlayer = 'player' + _.random(1, 2);
 
     // Phaser.Game object
     this.phaserGameObj = null;
@@ -44,6 +49,8 @@ LinesBallsGame.prototype = {
                 gameHelpers.update();
             }
         });
+
+        this.lastBonusTime = 0;
     },
 
     ballHitPlayer: function() {
@@ -51,7 +58,6 @@ LinesBallsGame.prototype = {
     },
 
     increaseBallVelocityOnCollision: function() {
-        var elapsed = Game.phaserGameObj.time.totalElapsedSeconds();
         var delta = (this.ball.body.velocity.x > 0 ? 1 : -1) * this.options.ballAcceleration;
 
         this.ball.body.velocity.setTo(Math.floor(this.ball.body.velocity.x + delta), Math.floor(this.ball.body.velocity.y + delta));
@@ -110,7 +116,9 @@ LinesBallsGame.prototype = {
         this.player1.board.body.velocity.setTo(0);
         this.player2.board.body.velocity.setTo(0);
 
-        gameUI.showEndRoundMessage();
+        this.gameStarted = false;
+
+        gameUI.showEndRoundMessage('Player ' + this.lastWinner.index + ' won');
     },
 
     pushBall: function() {
@@ -129,13 +137,15 @@ LinesBallsGame.prototype = {
 
 var gameHelpers, 
     Game,
-    gameUI
+    gameUI,
+    bonusFactory
 ;
 
 $(function() {
     gameHelpers = new Helpers();
     Game = new LinesBallsGame();
     gameUI = new UI();
+    bonusFactory = new BonusFactory();
 
     Game.init();
 });

@@ -29,6 +29,24 @@ UI.prototype.update = function() {
 	this.setLives('player2', Game.player2.lives);
 }
 
-UI.prototype.showEndRoundMessage = function() {
-	confirm('Player ' + Game.lastWinner.index + ' won');
+UI.prototype.showEndRoundMessage = function(message) {
+	confirm(message);
+}
+
+UI.prototype.updatePlayerBonuses = function(player) {
+	var container = $(".player-data[data-player=" + player.index.replace('player', '') + "] .bonuses")
+		html = '',
+		img = ''
+	;
+
+	for (var i = 0; i <= 3; i++) {
+		if (typeof player.bonusesInStash[i].sprite != 'undefined') {
+			img = '<img class="bonus-icon" src="assets/' + player.bonusesInStash[i].sprite.key + '.png" />';
+		} else {
+			img = '<img class="bonus-icon" />'
+		}
+		html += '<div class="bonus-box">' + img + '</div>';
+	};
+
+	container.html(html);
 }
