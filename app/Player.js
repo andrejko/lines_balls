@@ -17,12 +17,11 @@ Player.prototype.update = function() {
     board.body.velocity.x = 0;
     board.body.velocity.y = 0;
 
-    if (Game.cursors.up.isDown) {
+    if (Game.options.controls[this.index + "UP"].isDown) {
         board.body.velocity.y = -Game.options.defaultSpeed;
-        board.animations.play('right');
-    } else if (Game.cursors.down.isDown) {
+    }
+    if (Game.options.controls[this.index + "DOWN"].isDown) {
         board.body.velocity.y = Game.options.defaultSpeed;
-        board.animations.play('right');
     }
 }
 

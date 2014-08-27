@@ -1,13 +1,14 @@
 function LinesBallsGame() {
     this.options = {
         startPlayerLives: 3,
-        ballAcceleration: 1,
+        ballAcceleration: 5,
         boardMovementSpeed: 500,
         boardSideOffset: 10,
         boardInitialWidth: 12,
         boardInitialHeight: 100,
         defaultSpeed: 500,
-        gameContainerID: 'game-container'
+        gameContainerID: 'game-container',
+        controls: {}
     };
 
     // Phaser.Game object
@@ -51,7 +52,7 @@ LinesBallsGame.prototype = {
 
     increaseBallVelocityOnCollision: function() {
         var elapsed = Game.phaserGameObj.time.totalElapsedSeconds();
-        var delta = (this.ball.body.velocity.x > 0 ? 1 : -1) * elapsed * this.options.ballAcceleration;
+        var delta = (this.ball.body.velocity.x > 0 ? 1 : -1) * this.options.ballAcceleration;
 
         this.ball.body.velocity.setTo(Math.floor(this.ball.body.velocity.x + delta), Math.floor(this.ball.body.velocity.y + delta));
         //console.log(ball.body.velocity);
@@ -104,8 +105,10 @@ LinesBallsGame.prototype = {
     },
 
     endRound: function() {
-        this.ball.body.moves = false;
         this.ball.body.velocity.setTo(0);
+
+        this.player1.board.body.velocity.setTo(0);
+        this.player2.board.body.velocity.setTo(0);
 
         gameUI.showEndRoundMessage();
     },

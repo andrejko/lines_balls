@@ -25,7 +25,10 @@ Helpers.prototype.create = function() {
 
     Game.ball = ball;
 
-    Game.cursors = Game.phaserGameObj.input.keyboard.createCursorKeys();
+    Game.options.controls["player1UP"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.Q);
+    Game.options.controls["player1DOWN"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.A);
+    Game.options.controls["player2UP"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.UP);
+    Game.options.controls["player2DOWN"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.DOWN);
 
     Game.resetRound();
 
