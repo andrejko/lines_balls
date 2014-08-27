@@ -15,6 +15,8 @@ UI.prototype.setLives = function(player, value) {
 	
 	if (value < 3) {
 		this[player]["lives"].removeClass("label-default").addClass("label-warning");
+	} else {
+		this[player]["lives"].removeClass().addClass("label label-default");
 	}
 
 	if (value < 2) {
@@ -25,4 +27,8 @@ UI.prototype.setLives = function(player, value) {
 UI.prototype.update = function() {
 	this.setLives('player1', Game.player1.lives);
 	this.setLives('player2', Game.player2.lives);
+}
+
+UI.prototype.showEndRoundMessage = function() {
+	confirm('Player ' + Game.lastWinner.index + ' won');
 }

@@ -60,20 +60,54 @@ LinesBallsGame.prototype = {
     checkMissed: function() {
         if (this.ball.body.blocked.right) {
             this.player2.missed();
+
+            if (this.player2.lose) {
+                Game.lastWinner = Game.player1;
+            }
         }
 
         if (this.ball.body.blocked.left) {
             this.player1.missed();
+
+            if (this.player1.lose) {
+                Game.lastWinner = Game.player2;
+            }
         }
 
         if (this.player1.lose || this.player2.lose) {
-            this.endGame();
+            // to prevent blocking pop-up before UI updated 
+            setTimeout(function() {
+                Game.endRound();
+                Game.resetRound();
+            }, 10);
         }
+    },
+
+    resetRound: function() {
+        this.ball.x = (this.phaserGameObj.width - this.ball.width) / 2;
+        this.ball.y = (this.phaserGameObj.height - this.ball.height) / 2;
+
+        Game.player1.lives = Game.options.startPlayerLives;
+        Game.player1.lose = false;
+        Game.player2.lives = Game.options.startPlayerLives;
+        Game.player2.lose = false;
+
+        this.phaserGameObj.add.tween(Game.player1.board.body).to( {y: (Game.phaserGameObj.height - Game.options.boardInitialHeight) / 2}, 100, null, true);
+        this.phaserGameObj.add.tween(Game.player2.board.body).to( {y: (Game.phaserGameObj.height - Game.options.boardInitialHeight) / 2}, 100, null, true);
+
+        gameUI.update();
     },
 
     startRound: function() {
         Game.pushBall();
         Game.gameStarted = true;
+    },
+
+    endRound: function() {
+        this.ball.body.moves = false;
+        this.ball.body.velocity.setTo(0);
+
+        gameUI.showEndRoundMessage();
     },
 
     pushBall: function() {
@@ -87,22 +121,12 @@ LinesBallsGame.prototype = {
     },
 
     endGame: function() {
-    },
-
-    endRound: function() {
-        this.ball.body.moves = false;
-        this.ball.body.velocity.setTo(0);
-    },
-
-    resetRound: function() {
-        this.ball.x = (this.phaserGameObj.width - this.ball.width) / 2;
-        this.ball.y = (this.phaserGameObj.height - this.ball.height) / 2;
     }
 }
 
 var gameHelpers, 
     Game,
-    UI
+    gameUI
 ;
 
 $(function() {

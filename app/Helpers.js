@@ -14,8 +14,8 @@ Helpers.prototype.create = function() {
     Game.phaserGameObj.stage.backgroundColor = '#fff';
 
     // place players boards
-    Game.player1 = new Player(1, Game.phaserGameObj, Game.options.boardSideOffset, (Game.phaserGameObj.height - Game.options.boardInitialHeight) / 2);
-    Game.player2 = new Player(2, Game.phaserGameObj, Game.phaserGameObj.width - Game.options.boardSideOffset - Game.options.boardInitialWidth, (Game.phaserGameObj.height - Game.options.boardInitialHeight) / 2);
+    Game.player1 = new Player(1, Game.phaserGameObj, Game.options.boardSideOffset, 0);
+    Game.player2 = new Player(2, Game.phaserGameObj, Game.phaserGameObj.width - Game.options.boardSideOffset - Game.options.boardInitialWidth, 0);
 
     // place ball
     ball = Game.phaserGameObj.add.sprite(0, 0, 'ball');
