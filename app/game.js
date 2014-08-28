@@ -6,15 +6,17 @@ function LinesBallsGame() {
         boardInitialWidth: 12,
         boardInitialHeight: 100,
         defaultBoardSpeed: 500,
-        bonusSpeed: 500,
+        bonusFlySpeed: 500,
+        launchBonusInterval: 0.5, // 0.5 sec
         gameContainerID: 'game-container',
-        controls: {},
+        controls: {}
     };
 
     this.bonuses = ["enlarge", "reduce", "fast", "slow", "reverse"];
     this.lastBonusTime = null;
     this.nextBonusTimeDelta = 5; // 5 sec
     this.nextBonusPlayer = 'player' + _.random(1, 2);
+    this.flyingBonus = null;
 
     // Phaser.Game object
     this.phaserGameObj = null;
@@ -108,6 +110,10 @@ LinesBallsGame.prototype = {
 
         this.phaserGameObj.add.tween(Game.player1.board.body).to( {y: (Game.phaserGameObj.height - Game.options.boardInitialHeight) / 2}, 100, null, true);
         this.phaserGameObj.add.tween(Game.player2.board.body).to( {y: (Game.phaserGameObj.height - Game.options.boardInitialHeight) / 2}, 100, null, true);
+
+        if (this.flyingBonus != null) {
+            this.flyingBonus.sprite.kill();
+        }
 
         gameUI.update();
     },

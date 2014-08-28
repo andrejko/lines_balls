@@ -15,7 +15,8 @@ BonusFactory = function() {
 		}
 
 		bonus.name = name;
-		bonus.sprite = Game.phaserGameObj.add.sprite(-100, -100, 'bonus-' + name); 
+		bonus.sprite = Game.phaserGameObj.add.sprite(-100, -100, 'bonus-' + name);
+		Game.phaserGameObj.physics.arcade.enable(bonus.sprite);
 
 		// player is Player object
 		bonus.giveToPlayer = function(player) {

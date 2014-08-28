@@ -32,8 +32,12 @@ Helpers.prototype.create = function() {
 
     Game.options.controls["player1UP"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.Q);
     Game.options.controls["player1DOWN"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.A);
+    Game.options.controls["player1Launch"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.X);
+    Game.options.controls["player1Use"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.Z);
     Game.options.controls["player2UP"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.UP);
     Game.options.controls["player2DOWN"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+    Game.options.controls["player2Launch"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.M);
+    Game.options.controls["player2Use"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.N);
 
     Game.resetRound();
 
@@ -66,7 +70,7 @@ Helpers.prototype.update = function() {
     if (!Game.gameStarted) {
         return;
     }
-    
+
     if ((elapsed - Game.lastBonusTime) >= Game.nextBonusTimeDelta) {
         bonus = bonusFactory.getRandomBonus();
 
