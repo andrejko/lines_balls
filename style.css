@@ -26,8 +26,15 @@
 
 .player1 .bonus-box {
 	margin-right: 10px;
+	float: left;
+}
+
+.player1 .bonus-box:last-child,
+.player2 .bonus-box:last-child {
+	outline: 2px solid #F58282;
 }
 
 .player2 .bonus-box {
 	margin-left: 10px;
+	float: right;
 }

@@ -63,6 +63,10 @@ Helpers.prototype.update = function() {
         }
     }
 
+    if (!Game.gameStarted) {
+        return;
+    }
+    
     if ((elapsed - Game.lastBonusTime) >= Game.nextBonusTimeDelta) {
         bonus = bonusFactory.getRandomBonus();
 

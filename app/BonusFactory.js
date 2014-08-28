@@ -24,10 +24,8 @@ BonusFactory = function() {
 			player.bonusesInStash.push(this);
 
 			if (player.bonusesInStash.length > 3) {
-				player.bonusesInStash.splice(0, player.bonusesInStash,length - 3);
+				player.bonusesInStash.splice(0, player.bonusesInStash.length - 3);
 			}
-
-			console.log(player.index, player.bonusesInStash);
 
 			gameUI.updatePlayerBonuses(player);
 		}

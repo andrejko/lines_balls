@@ -96,8 +96,15 @@ LinesBallsGame.prototype = {
 
         Game.player1.lives = Game.options.startPlayerLives;
         Game.player1.lose = false;
+        Game.player1.bonusesInStash = [];
+        Game.player1.reverse = false;
+        Game.player1.boardSpeed = Game.options.defaultBoardSpeed;
+
         Game.player2.lives = Game.options.startPlayerLives;
         Game.player2.lose = false;
+        Game.player2.bonusesInStash = [];
+        Game.player2.reverse = false;
+        Game.player2.boardSpeed = Game.options.defaultBoardSpeed;
 
         this.phaserGameObj.add.tween(Game.player1.board.body).to( {y: (Game.phaserGameObj.height - Game.options.boardInitialHeight) / 2}, 100, null, true);
         this.phaserGameObj.add.tween(Game.player2.board.body).to( {y: (Game.phaserGameObj.height - Game.options.boardInitialHeight) / 2}, 100, null, true);
