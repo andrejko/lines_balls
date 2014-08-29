@@ -8,6 +8,7 @@ Player = function(index, game, startX, startY) {
     this.reverse = false;
     this.bonusesInStash = [];
     this.lastLaunchTime = 0;
+    this.lastUseTime = 0;
 
     game.physics.arcade.enable(this.board);
 
@@ -22,10 +23,10 @@ Player.prototype.update = function() {
     board.body.velocity.y = 0;
 
     if (Game.options.controls[this.index + "UP"].isDown) {
-        board.body.velocity.y = -this.boardSpeed;
+        board.body.velocity.y = (this.reverse ? 1 : -1) * this.boardSpeed;
     }
     if (Game.options.controls[this.index + "DOWN"].isDown) {
-        board.body.velocity.y = this.boardSpeed;
+        board.body.velocity.y = (this.reverse ? -1 : 1) * this.boardSpeed;
     }
     if (Game.options.controls[this.index + "Launch"].isDown) {
         if ((this.lastLaunchTime + Game.options.launchBonusInterval) > Game.phaserGameObj.time.totalElapsedSeconds()) {
@@ -39,6 +40,10 @@ Player.prototype.update = function() {
         this.launchBonus();
     }
     if (Game.options.controls[this.index + "Use"].isDown) {
+        if ((this.lastUseTime + Game.options.launchBonusInterval) > Game.phaserGameObj.time.totalElapsedSeconds()) {
+            return;
+        }
+
         if (this.bonusesInStash.length == 0) {
             return;
         }
@@ -67,11 +72,19 @@ Player.prototype.launchBonus = function() {
     bonus.sprite.body.y = this.board.body.center.y - this.board.body.height / 2;
     bonus.sprite.body.velocity.x = (this.index == 'player1' ? 1 : -1) * Game.options.bonusFlySpeed;
 
+    Game.flyingBonus = bonus;
+
     this.lastLaunchTime = Game.phaserGameObj.time.totalElapsedSeconds();
 
     gameUI.updatePlayerBonuses(this);
 }
 
 Player.prototype.useBonus = function() {
-    
+    var bonus = this.bonusesInStash.pop();
+
+    bonus.applyOnPlayer(this);
+
+    this.lastUseTime = Game.phaserGameObj.time.totalElapsedSeconds();
+
+    gameUI.updatePlayerBonuses(this);
 }

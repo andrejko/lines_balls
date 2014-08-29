@@ -42,31 +42,47 @@ BonusFactory = function() {
 }
 
 BonusEnlarge = function() {
-	this.apply = function(player) {
-		player.board.height += 50;
+	var delta = 30;
+
+	this.applyOnPlayer = function(player) {
+		if ((player.board.height + delta) <= 160) {
+			player.board.height += 30;
+		}
 	}
 }
 
 BonusReduce = function() {
-	this.apply = function(player) {
-		player.board.height -= 50;
+	var delta = 30;
+
+	this.applyOnPlayer = function(player) {
+		if ((player.board.height - delta) >= 40) {
+			player.board.height -= 30;
+		}
 	}
 }
 
 BonusFast = function() {
-	this.apply = function(player) {
-		player.boardSpeed += 200;
+	var delta = 200;
+
+	this.applyOnPlayer = function(player) {
+		if ((player.boardSpeed + delta) <= 900) {
+			player.boardSpeed += 200;
+		}
 	}
 }
 
 BonusSlow = function() {
-	this.apply = function(player) {
-		player.board.height -= 200;
+	var delta = 200;
+
+	this.applyOnPlayer = function(player) {
+		if ((player.boardSpeed - delta) >= 100) {
+			player.board.height -= 200;
+		}
 	}
 }
 
 BonusReverse = function() {
-	this.apply = function(player) {
-		player.reverse = true;
+	this.applyOnPlayer = function(player) {
+		player.reverse = !player.reverse;
 	}
 }

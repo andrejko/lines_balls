@@ -1,6 +1,6 @@
 function LinesBallsGame() {
     this.options = {
-        startPlayerLives: 3,
+        startPlayerLives: 999,
         ballAcceleration: 5,
         boardSideOffset: 10,
         boardInitialWidth: 12,
@@ -145,6 +145,15 @@ LinesBallsGame.prototype = {
     },
 
     endGame: function() {
+    },
+
+    bonusHitPlayer: function(bonus, playerBoard, player) {
+        console.log(player.index);
+
+        this.flyingBonus.applyOnPlayer(player);
+
+        this.flyingBonus.sprite.kill();
+        this.flyingBonus = null;
     }
 }
 

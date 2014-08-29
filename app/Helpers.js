@@ -36,8 +36,8 @@ Helpers.prototype.create = function() {
     Game.options.controls["player1Use"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.Z);
     Game.options.controls["player2UP"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.UP);
     Game.options.controls["player2DOWN"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-    Game.options.controls["player2Launch"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.M);
-    Game.options.controls["player2Use"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.N);
+    Game.options.controls["player2Launch"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.N);
+    Game.options.controls["player2Use"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.M);
 
     Game.resetRound();
 
@@ -49,7 +49,8 @@ Helpers.prototype.create = function() {
 
 Helpers.prototype.update = function() {
     var elapsed = Game.phaserGameObj.time.totalElapsedSeconds(),
-        bonus
+        bonus,
+        boards
     ;
 
     // movement
@@ -67,10 +68,26 @@ Helpers.prototype.update = function() {
         }
     }
 
+    boards = Game.phaserGameObj.add.group();
+    boards.enableBody = true
+
+    if (Game.flyingBonus != null) {
+        Game.phaserGameObj.physics.arcade.collide(Game.flyingBonus.sprite, Game.player1.board, function(bonus, board) {
+            Game.bonusHitPlayer(bonus, board, Game.player1);
+        });
+    }
+
+    if (Game.flyingBonus != null) {
+        Game.phaserGameObj.physics.arcade.collide(Game.flyingBonus.sprite, Game.player2.board, function(bonus, board) {
+            Game.bonusHitPlayer(bonus, board, Game.player2);
+        });
+    }
+
     if (!Game.gameStarted) {
         return;
     }
 
+    // add bonus to players by turn after random time
     if ((elapsed - Game.lastBonusTime) >= Game.nextBonusTimeDelta) {
         bonus = bonusFactory.getRandomBonus();
 
