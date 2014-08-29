@@ -55,15 +55,27 @@ LinesBallsGame.prototype = {
         this.lastBonusTime = 0;
     },
 
-    ballHitPlayer: function() {
-        this.increaseBallVelocityOnCollision();
+    ballHitPlayer: function(board, ball) {
+        this.updateBallVelocityOnCollision(board.body.velocity);
     },
 
-    increaseBallVelocityOnCollision: function() {
-        var delta = (this.ball.body.velocity.x > 0 ? 1 : -1) * this.options.ballAcceleration;
+    updateBallVelocityOnCollision: function(bodyVelocity) {
+        var deltaX = (this.ball.body.velocity.x > 0 ? 1 : -1) * this.options.ballAcceleration,
+            playerInfluence = 0,
+            playerDir,
+            ballDir
+        ;
 
-        this.ball.body.velocity.setTo(Math.floor(this.ball.body.velocity.x + delta), Math.floor(this.ball.body.velocity.y + delta));
-        //console.log(ball.body.velocity);
+        if (typeof bodyVelocity != 'undefined') {
+            playerDir = (bodyVelocity.y > 0 ? 1 : -1);
+            ballDir = (this.ball.body.velocity.y > 0 ? 1 : -1);
+
+            playerInfluence = bodyVelocity.y / (playerDir == ballDir ? 5 : 3);
+        }
+
+        playerInfluence = (typeof bodyVelocity == 'undefined') ? 0 : bodyVelocity.y / 4;
+
+        this.ball.body.velocity.setTo(Math.floor(this.ball.body.velocity.x + deltaX), Math.floor(this.ball.body.velocity.y + deltaX + playerInfluence));
     },
 
     checkMissed: function() {
@@ -148,8 +160,6 @@ LinesBallsGame.prototype = {
     },
 
     bonusHitPlayer: function(bonus, playerBoard, player) {
-        console.log(player.index);
-
         this.flyingBonus.applyOnPlayer(player);
 
         this.flyingBonus.sprite.kill();

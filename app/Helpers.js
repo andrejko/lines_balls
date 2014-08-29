@@ -27,6 +27,7 @@ Helpers.prototype.create = function() {
     Game.phaserGameObj.physics.arcade.enable(ball);
     ball.body.collideWorldBounds = true;
     ball.body.bounce.setTo(1, 1);
+    ball.body.maxVelocity.setTo(1000, 1000);
 
     Game.ball = ball;
 
@@ -61,7 +62,7 @@ Helpers.prototype.update = function() {
     Game.phaserGameObj.physics.arcade.collide(Game.player2.board, Game.ball, Game.ballHitPlayer, null, Game);
 
     if (Game.ball.body.onWall()) {
-        Game.increaseBallVelocityOnCollision();
+        Game.updateBallVelocityOnCollision();
 
         if (Game.gameStarted) {
             Game.checkMissed();
