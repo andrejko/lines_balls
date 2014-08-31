@@ -76,7 +76,7 @@ BonusSlow = function() {
 
 	this.applyOnPlayer = function(player) {
 		if ((player.boardSpeed - delta) >= 100) {
-			player.board.height -= 200;
+			player.boardSpeed -= 200;
 		}
 	}
 }

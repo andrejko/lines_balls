@@ -9,6 +9,7 @@ Player = function(index, game, startX, startY) {
     this.bonusesInStash = [];
     this.lastLaunchTime = 0;
     this.lastUseTime = 0;
+    this.flyingBonuses = [];
 
     game.physics.arcade.enable(this.board);
 
@@ -66,13 +67,13 @@ Player.prototype.missed = function() {
 }
 
 Player.prototype.launchBonus = function() {
-    var bonus = this.bonusesInStash.pop();
+    var bonus = this.bonusesInStash.splice(0, 1)[0];
 
-    bonus.sprite.body.x = this.board.body.x + this.board.body.width;
+    bonus.sprite.body.x = this.board.body.x + (this.index == 'player1' ? this.board.body.width : -(this.board.body.width + bonus.sprite.body.height));
     bonus.sprite.body.y = this.board.body.center.y - this.board.body.height / 2;
     bonus.sprite.body.velocity.x = (this.index == 'player1' ? 1 : -1) * Game.options.bonusFlySpeed;
 
-    Game.flyingBonus = bonus;
+    this.flyingBonuses.push(bonus);
 
     this.lastLaunchTime = Game.phaserGameObj.time.totalElapsedSeconds();
 
@@ -80,7 +81,7 @@ Player.prototype.launchBonus = function() {
 }
 
 Player.prototype.useBonus = function() {
-    var bonus = this.bonusesInStash.pop();
+    var bonus = this.bonusesInStash.splice(0, 1)[0];
 
     bonus.applyOnPlayer(this);
 

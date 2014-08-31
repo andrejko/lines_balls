@@ -16,7 +16,6 @@ function LinesBallsGame() {
     this.lastBonusTime = null;
     this.nextBonusTimeDelta = 5; // 5 sec
     this.nextBonusPlayer = 'player' + _.random(1, 2);
-    this.flyingBonus = null;
 
     // Phaser.Game object
     this.phaserGameObj = null;
@@ -123,8 +122,11 @@ LinesBallsGame.prototype = {
         this.phaserGameObj.add.tween(Game.player1.board.body).to( {y: (Game.phaserGameObj.height - Game.options.boardInitialHeight) / 2}, 100, null, true);
         this.phaserGameObj.add.tween(Game.player2.board.body).to( {y: (Game.phaserGameObj.height - Game.options.boardInitialHeight) / 2}, 100, null, true);
 
-        if (this.flyingBonus != null) {
-            this.flyingBonus.sprite.kill();
+        for (var i = Game.player1.flyingBonuses.length - 1; i >= 0; i--) {
+            Game.player1.flyingBonuses[i].sprite.kill();
+        }
+        for (var i = Game.player2.flyingBonuses.length - 1; i >= 0; i--) {
+            Game.player2.flyingBonuses[i].sprite.kill();
         }
 
         gameUI.update();
@@ -160,10 +162,9 @@ LinesBallsGame.prototype = {
     },
 
     bonusHitPlayer: function(bonus, playerBoard, player) {
-        this.flyingBonus.applyOnPlayer(player);
+        bonus.applyOnPlayer(player);
 
-        this.flyingBonus.sprite.kill();
-        this.flyingBonus = null;
+        bonus.sprite.kill();
     }
 }
 

@@ -70,18 +70,20 @@ Helpers.prototype.update = function() {
     }
 
     boards = Game.phaserGameObj.add.group();
-    boards.enableBody = true
+    boards.enableBody = true;
 
-    if (Game.flyingBonus != null) {
-        Game.phaserGameObj.physics.arcade.collide(Game.flyingBonus.sprite, Game.player1.board, function(bonus, board) {
-            Game.bonusHitPlayer(bonus, board, Game.player1);
-        });
-    }
+    if (Game.flyingBonuses.length != 0) {
+        for (var i = Game.flyingBonuses.length - 1; i >= 0; i--) {
+            Game.phaserGameObj.physics.arcade.collide(Game.flyingBonuses[i].sprite, Game.player1.board, function(bonus, board) {
+                Game.bonusHitPlayer(Game.flyingBonuses[i], board, Game.player1);
+                Game.flyingBonuses.pop();
+            });
 
-    if (Game.flyingBonus != null) {
-        Game.phaserGameObj.physics.arcade.collide(Game.flyingBonus.sprite, Game.player2.board, function(bonus, board) {
-            Game.bonusHitPlayer(bonus, board, Game.player2);
-        });
+            Game.phaserGameObj.physics.arcade.collide(Game.flyingBonuses[i].sprite, Game.player2.board, function(bonus, board) {
+                Game.bonusHitPlayer(Game.flyingBonuses[i], board, Game.player2);
+                Game.flyingBonuses.pop();
+            });
+        }
     }
 
     if (!Game.gameStarted) {
