@@ -72,18 +72,18 @@ Helpers.prototype.update = function() {
     boards = Game.phaserGameObj.add.group();
     boards.enableBody = true;
 
-    if (Game.flyingBonuses.length != 0) {
-        for (var i = Game.flyingBonuses.length - 1; i >= 0; i--) {
-            Game.phaserGameObj.physics.arcade.collide(Game.flyingBonuses[i].sprite, Game.player1.board, function(bonus, board) {
-                Game.bonusHitPlayer(Game.flyingBonuses[i], board, Game.player1);
-                Game.flyingBonuses.pop();
-            });
+    for (var i = Game.player1.flyingBonuses.length - 1; i >= 0; i--) {
+        Game.phaserGameObj.physics.arcade.collide(Game.player1.flyingBonuses[i].sprite, Game.player2.board, function(bonus, board) {
+            Game.bonusHitPlayer(Game.player1.flyingBonuses[i], board, Game.player2);
+            Game.player1.flyingBonuses.pop();
+        });
+    }
 
-            Game.phaserGameObj.physics.arcade.collide(Game.flyingBonuses[i].sprite, Game.player2.board, function(bonus, board) {
-                Game.bonusHitPlayer(Game.flyingBonuses[i], board, Game.player2);
-                Game.flyingBonuses.pop();
-            });
-        }
+    for (var i = Game.player2.flyingBonuses.length - 1; i >= 0; i--) {
+        Game.phaserGameObj.physics.arcade.collide(Game.player2.flyingBonuses[i].sprite, Game.player1.board, function(bonus, board) {
+            Game.bonusHitPlayer(Game.player2.flyingBonuses[i], board, Game.player1);
+            Game.player2.flyingBonuses.pop();
+        });
     }
 
     if (!Game.gameStarted) {
