@@ -61,7 +61,7 @@ Player.prototype.missed = function() {
     this.lives--;
     gameUI.setLives(this.index, this.lives);
 
-    if (this.lives == 0) {
+    if (this.lives <= 0) {
         this.lose = true;
     }
 }

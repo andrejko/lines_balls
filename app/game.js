@@ -1,6 +1,6 @@
 function LinesBallsGame() {
     this.options = {
-        startPlayerLives: 3,
+        startPlayerLives: 1,
         ballAcceleration: 5,
         boardSideOffset: 10,
         boardInitialWidth: 12,
@@ -130,6 +130,8 @@ LinesBallsGame.prototype = {
         }
 
         gameUI.update();
+
+        this.phaserGameObj.paused = false;
     },
 
     startRound: function() {
@@ -143,6 +145,7 @@ LinesBallsGame.prototype = {
         this.player1.board.body.velocity.setTo(0);
         this.player2.board.body.velocity.setTo(0);
 
+        this.phaserGameObj.paused = true;
         this.gameStarted = false;
 
         gameUI.showEndRoundMessage('Player ' + this.lastWinner.index + ' won');
