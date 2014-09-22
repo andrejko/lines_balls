@@ -1,6 +1,6 @@
 function LinesBallsGame() {
     this.options = {
-        startPlayerLives: 1,
+        startPlayerLives: 5,
         ballAcceleration: 5,
         boardSideOffset: 10,
         boardInitialWidth: 12,
