@@ -21,7 +21,10 @@ Network.prototype.start = function() {
     this.socket = socket;
 
     socket.onopen = function () {
-        socket.send('Ping');
+        socket.send(JSON.stringify({
+            command: 'ping',
+            commandData: '',
+        }));
     };
 
     socket.onerror = function (error) {
@@ -38,7 +41,15 @@ Network.prototype.start = function() {
             Game.setLocalPlayer(data.commandData);
         }
 
+        // keydown
+        if (data.command == 'keydown') {
+            Game.handleKeyDown(data.commandData);
+        }
 
+        // keyup
+        if (data.command == 'keyup') {
+            Game.handleKeyUp(data.commandData);
+        }
     };
 }
 
@@ -47,11 +58,17 @@ Network.prototype.isConnected = function() {
 }
 
 Network.prototype.isReady = function() {
+    if (Game.localPlayerIndex == null) {
+        return false;
+    }
 
     return true;
 }
 
 Network.prototype.sendEvent = function(event, data) {
     console.log(event + ' ' + data);
-    this.socket.send(event + ' ' + data);
+    this.socket.send(JSON.stringify({
+        command: event,
+        commandData: data
+    }));
 }

@@ -11,6 +11,8 @@ Helpers.prototype.preload = function() {
     Game.phaserGameObj.load.image('bonus-slow', 'assets/bonus-slow.png');
     Game.phaserGameObj.load.image('bonus-reverse', 'assets/bonus-reverse.png');
 
+    Game.phaserGameObj.stage.disableVisibilityChange = true;
+
     if (Game.options.networkEnabled) {
         network = new Network(Game.options.servetUrl);
         network.start();
@@ -46,9 +48,25 @@ Helpers.prototype.create = function() {
     gameUI.setName('player2', Game.player2.name);
 
     gameUI.update();
+
+    $(document).on('keydown', function(e) {
+        if (Game.options.usedKeyCodes.indexOf(e.keyCode) != -1) {
+            network.sendEvent('keydown', e.keyCode);
+        }
+    });
+
+    $(document).on('keyup', function(e) {
+        if (Game.options.usedKeyCodes.indexOf(e.keyCode) != -1) {
+            network.sendEvent('keyup', e.keyCode);
+        }
+    });
 };
 
 Helpers.prototype.update = function() {
+    if (!network.isReady()) {
+        return;
+    }
+
     var elapsed = Game.phaserGameObj.time.totalElapsedSeconds(),
         bonus,
         boards

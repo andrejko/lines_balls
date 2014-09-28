@@ -12,9 +12,36 @@ function LinesBallsGame() {
         launchBonusInterval: 0.5, // 0.5 sec
         gameContainerID: 'game-container',
         controls: {},
-        localPlayerIndex: null
+        localPlayerIndex: null,
+        usedKeyCodes: [65, 81, 88, 90, 38, 40, 78, 77]
     };
 
+    this.keys = {
+        player1UP: {
+            isPressed: false
+        },
+        player1DOWN: {
+            isPressed: false
+        },
+        player1Launch: {
+            isPressed: false
+        },
+        player1Use: {
+            isPressed: false
+        },
+        player2UP: {
+            isPressed: false
+        },
+        player2DOWN: {
+            isPressed: false
+        },
+        player2Launch: {
+            isPressed: false
+        },
+        player2Use: {
+            isPressed: false
+        }
+    };
     this.bonuses = ["enlarge", "reduce", "fast", "slow", "reverse"];
     this.lastBonusTime = null;
     this.nextBonusTimeDelta = 5; // 5 sec
@@ -181,19 +208,32 @@ LinesBallsGame.prototype = {
         Game[index].local = true;
         Game.localPlayerIndex = index;
 
-        if (index == 'player1') {
-            Game.options.controls["player1UP"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.Q);
-            Game.options.controls["player1DOWN"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.A);
-            Game.options.controls["player1Launch"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.X);
-            Game.options.controls["player1Use"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.Z);
-        } else {
-            Game.options.controls["player2UP"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.UP);
-            Game.options.controls["player2DOWN"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-            Game.options.controls["player2Launch"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.N);
-            Game.options.controls["player2Use"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.M);
-        }
+        Game.options.controls["player1UP"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.Q);
+        Game.options.controls["player1DOWN"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.A);
+        Game.options.controls["player1Launch"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.X);
+        Game.options.controls["player1Use"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.Z);
+        Game.options.controls["player2UP"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.UP);
+        Game.options.controls["player2DOWN"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+        Game.options.controls["player2Launch"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.N);
+        Game.options.controls["player2Use"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.M);
 
         console.log(index + ' set as local');
+    },
+
+    handleKeyDown: function(code) {
+        for (var i in Game.options.controls) {
+            if (Game.options.controls[i]["keyCode"] == code) {
+                Game.keys[i].isPressed = true;
+            }
+        }
+    },
+
+    handleKeyUp: function(code) {
+        for (var i in Game.options.controls) {
+            if (Game.options.controls[i]["keyCode"] == code) {
+                Game.keys[i].isPressed = false;
+            }
+        }
     }
 }
 

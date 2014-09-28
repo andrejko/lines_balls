@@ -19,39 +19,62 @@ Player = function(index, game, startX, startY, name) {
     this.board.body.immovable = true;
 }
 
+Player.prototype.moveUp = function() {
+    var board = this.board;
+
+    board.body.velocity.y = (this.reverse ? 1 : -1) * this.boardSpeed;
+}
+
+Player.prototype.moveDown = function() {
+    var board = this.board;
+
+    board.body.velocity.y = (this.reverse ? -1 : 1) * this.boardSpeed;
+}
+
+Player.prototype.launch = function() {
+    if ((this.lastLaunchTime + Game.options.launchBonusInterval) > Game.phaserGameObj.time.totalElapsedSeconds()) {
+        return;
+    }
+
+    if (this.bonusesInStash.length == 0) {
+        return;
+    }
+
+    this.launchBonus();
+}
+
+Player.prototype.use = function() {
+    if ((this.lastUseTime + Game.options.launchBonusInterval) > Game.phaserGameObj.time.totalElapsedSeconds()) {
+        return;
+    }
+
+    if (this.bonusesInStash.length == 0) {
+        return;
+    }
+
+    this.useBonus();
+}
+
 Player.prototype.update = function() {
     var board = this.board;
 
     board.body.velocity.x = 0;
     board.body.velocity.y = 0;
 
-    if (Game.options.controls[Game.localPlayerIndex + "UP"].isDown) {
-        board.body.velocity.y = (this.reverse ? 1 : -1) * this.boardSpeed;
+    if (Game.keys[this.index + "UP"].isPressed) {
+        this.moveUp();
     }
-    if (Game.options.controls[Game.localPlayerIndex + "DOWN"].isDown) {
-        board.body.velocity.y = (this.reverse ? -1 : 1) * this.boardSpeed;
+
+    if (Game.keys[this.index + "DOWN"].isPressed) {
+        this.moveDown();
     }
-    if (Game.options.controls[Game.localPlayerIndex + "Launch"].isDown) {
-        if ((this.lastLaunchTime + Game.options.launchBonusInterval) > Game.phaserGameObj.time.totalElapsedSeconds()) {
-            return;
-        }
 
-        if (this.bonusesInStash.length == 0) {
-            return;
-        }
-
-        this.launchBonus();
+    if (Game.keys[this.index + "Launch"].isPressed) {
+        this.launch();
     }
-    if (Game.options.controls[Game.localPlayerIndex + "Use"].isDown) {
-        if ((this.lastUseTime + Game.options.launchBonusInterval) > Game.phaserGameObj.time.totalElapsedSeconds()) {
-            return;
-        }
 
-        if (this.bonusesInStash.length == 0) {
-            return;
-        }
-
-        this.useBonus();
+    if (Game.keys[this.index + "Use"].isPressed) {
+        this.use();
     }
 }
 
