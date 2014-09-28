@@ -1,5 +1,7 @@
 function LinesBallsGame() {
     this.options = {
+        networkEnabled: false,
+        servetUrl: 'ws://207.244.75.162:3000',
         startPlayerLives: 5,
         ballAcceleration: 5,
         boardSideOffset: 10,
@@ -9,7 +11,8 @@ function LinesBallsGame() {
         bonusFlySpeed: 500,
         launchBonusInterval: 0.5, // 0.5 sec
         gameContainerID: 'game-container',
-        controls: {}
+        controls: {},
+        localPlayerIndex: null
     };
 
     this.bonuses = ["enlarge", "reduce", "fast", "slow", "reverse"];
@@ -112,12 +115,14 @@ LinesBallsGame.prototype = {
         Game.player1.bonusesInStash = [];
         Game.player1.reverse = false;
         Game.player1.boardSpeed = Game.options.defaultBoardSpeed;
+        Game.player1.board.height = Game.options.boardInitialHeight;
 
         Game.player2.lives = Game.options.startPlayerLives;
         Game.player2.lose = false;
         Game.player2.bonusesInStash = [];
         Game.player2.reverse = false;
         Game.player2.boardSpeed = Game.options.defaultBoardSpeed;
+        Game.player2.board.height = Game.options.boardInitialHeight;
 
         this.phaserGameObj.add.tween(Game.player1.board.body).to( {y: (Game.phaserGameObj.height - Game.options.boardInitialHeight) / 2}, 100, null, true);
         this.phaserGameObj.add.tween(Game.player2.board.body).to( {y: (Game.phaserGameObj.height - Game.options.boardInitialHeight) / 2}, 100, null, true);
@@ -135,8 +140,10 @@ LinesBallsGame.prototype = {
     },
 
     startRound: function() {
-        Game.pushBall();
-        Game.gameStarted = true;
+        if (network.isReady()) {
+            Game.pushBall();
+            Game.gameStarted = true;
+        }
     },
 
     endRound: function() {
@@ -148,7 +155,7 @@ LinesBallsGame.prototype = {
         this.phaserGameObj.paused = true;
         this.gameStarted = false;
 
-        gameUI.showEndRoundMessage('Player ' + this.lastWinner.index + ' won');
+        gameUI.showEndRoundMessage('Player ' + this.lastWinner.name + ' won');
     },
 
     pushBall: function() {
@@ -168,6 +175,25 @@ LinesBallsGame.prototype = {
         bonus.applyOnPlayer(player);
 
         bonus.sprite.kill();
+    },
+
+    setLocalPlayer: function(index) {
+        Game[index].local = true;
+        Game.localPlayerIndex = index;
+
+        if (index == 'player1') {
+            Game.options.controls["player1UP"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.Q);
+            Game.options.controls["player1DOWN"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.A);
+            Game.options.controls["player1Launch"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.X);
+            Game.options.controls["player1Use"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.Z);
+        } else {
+            Game.options.controls["player2UP"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.UP);
+            Game.options.controls["player2DOWN"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+            Game.options.controls["player2Launch"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.N);
+            Game.options.controls["player2Use"] = Game.phaserGameObj.input.keyboard.addKey(Phaser.Keyboard.M);
+        }
+
+        console.log(index + ' set as local');
     }
 }
 
@@ -183,5 +209,7 @@ $(function() {
     gameUI = new UI();
     bonusFactory = new BonusFactory();
 
-    Game.init();
+    Game.init({
+        networkEnabled: true
+    });
 });

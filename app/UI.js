@@ -8,6 +8,8 @@ UI = function() {
 		name: $(".player-data[data-player=2] .name"),
 		lives: $(".player-data[data-player=2] .lives")
 	}
+
+	this.logContainer = $("#log-container");
 }
 
 UI.prototype.setLives = function(player, value) {
@@ -24,9 +26,16 @@ UI.prototype.setLives = function(player, value) {
 	}
 }
 
+UI.prototype.setName = function(player, value) {
+	this[player]["name"].text(value);
+}
+
 UI.prototype.update = function() {
 	this.setLives('player1', Game.player1.lives);
 	this.setLives('player2', Game.player2.lives);
+
+	this.setName('player1', Game.player1.name);
+	this.setName('player2', Game.player2.name);
 
 	this.updatePlayerBonuses(Game.player1);
 	this.updatePlayerBonuses(Game.player2);
@@ -53,4 +62,8 @@ UI.prototype.updatePlayerBonuses = function(player) {
 	};
 
 	container.html(html);
+}
+
+UI.prototype.logMessage = function(msg) {
+	this.logContainer.append('<div class="log-message">' + msg + '</div>');
 }
