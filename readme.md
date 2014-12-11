@@ -2,8 +2,17 @@
 
 ![lines-balls demo](assets/lines.png)
 
-### Controls
- * <b>size [number]</b> - size of the gauge, width = height
+## Controls
+### Player1
+ * <b>Q</b> - up
+ * <b>A</b> - down
+ * <b>Z</b> - use bonus
+ * <b>X</b> - launch bonus
+ 
+### Player1
+ * <b>↑</b> - up
+ * <b>↓</b> - down
+ * <b>M</b> - use bonus
+ * <b>N</b> - launch bonus
 
-### Methods
- * <b>setPointerAngle</b> - function(value), rotates pointer on value degrees from vertical
+Play [here](https://github.com/andrejko/gauge.js/blob/master/demo.html)
