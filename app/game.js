@@ -152,10 +152,11 @@ LinesBallsGame.prototype = {
     },
 
     pushBall: function() {
-        this.ball.body.moves = true;
-        Xvector = (this.player2.board.x - this.ball.x);
-        Yvector = (this.player2.board.y - this.ball.y);
-        this.ball.body.velocity.setTo(Xvector, Yvector);
+        if ((this.ball.body.velocity.x == 0) && (this.ball.body.velocity.y == 0)) {
+            Xvector = (this.player2.board.x - this.ball.x);
+            Yvector = (this.player2.board.y - this.ball.y);
+            this.ball.body.velocity.setTo(Xvector, Yvector);
+        }
     },
 
     startGame: function() {
