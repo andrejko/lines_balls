@@ -5,6 +5,7 @@
 ## Controls
 ### General
  * <b>SPACE</b> - launch ball
+ 
 ### Player1
  * <b>Q</b> - up
  * <b>A</b> - down
