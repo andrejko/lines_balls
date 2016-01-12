@@ -17,5 +17,3 @@
  * <b>↓</b> - down
  * <b>M</b> - use bonus
  * <b>N</b> - launch bonus
-
-Play [here](https://github.com/andrejko/gauge.js/blob/master/demo.html)
